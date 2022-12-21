@@ -16,7 +16,7 @@ then
 att1=$(cut -f1 -d: Databases/$DBconnect/"meta$tablename"|grep -nw "$weratt"|cut -f1 -d:)
 (( att1++ ))
 touch Databases/$DBconnect/temp
-awk -F: -v wat=$att1 -v at=$att2 -v v=":$value:" -v wv=$wervalue '{if($wat==wv){$at=v;print $0}else {print $0}}' Databases/$DBconnect/$tablename > Databases/$DBconnect/temp
+awk -F: -v wat=$att1 -v at=$att2 -v v=$value -v wv=$wervalue '{OFS=FS}{if($wat==wv){$at=v;print }else {print $0}}' Databases/$DBconnect/$tablename >> Databases/$DBconnect/temp
 cp Databases/$DBconnect/temp Databases/$DBconnect/$tablename
 rm Databases/$DBconnect/temp
 else
