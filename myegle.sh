@@ -3,9 +3,9 @@ shopt -s extglob
 LC_COLLATE=C
 where=$(sudo find $HOME -name "DBEngine")
 cd $where
-rg0='*[|\]*'
+rg0='*\*'
 rg1='[0-9]*'
-rg2='*[!@#$%^&*()-+=\["\}\{\]/?><:;\.,`~ ]*'
+rg2='*[\!@|#$%^&*()-+=\["\}\{\]/?><:;\.,`~ ]*'
 int='^[0-9][0-9]*$'
 arr=("create Database"  "connect Database" "list Databases" "Drop Database" "Exit")
 

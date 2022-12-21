@@ -5,7 +5,7 @@ tname=$(echo $entry | awk -F: '{print $1}')
 natt=$(echo $entry | awk -F: '{print $2}')
 flag=0 
 flag2=0
-if [[ $tname != $rg1 && $tname != $rg2 && $tname != "" && $natt > 0 && $natt =~ $int ]]
+if [[ $tname != '*\*'  && $tname != $rg1 && $tname != "" && $tname != $rg2 && (($natt > 0)) && $natt =~ $int ]]
 then
 if [ ! -f Databases/$DBconnect/$tname ]
 then
@@ -17,7 +17,7 @@ if [[ $att != "" ]]
 then
 attname=$(echo $att|cut -f1 -d:)
 atttype=$(echo $att|cut -f2 -d:)
-if [[ $attname == "" || $attname == $rg1 || $attname == $rg2 || $atttype == " " ]]
+if [[ $attname == "" || $attname == $rg0 || $attname == $rg1 || $attname == $rg2  || $atttype == " " ]]
 then
 zenity --error --title "error" --text "invald value"
 (( i-- ))

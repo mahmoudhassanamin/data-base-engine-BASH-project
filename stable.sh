@@ -6,17 +6,33 @@ then
 table=$(zenity --entry --title "select" --text "enter table name")
 if [ -f Databases/$DBconnect/$table ]
 then
-x=$(cut -f1 -d:  Databases/$DBconnect/"meta$table"|awk '{print "--column "$0}')
-#for i in Databases/$DBconnect/$table
-#do
-#done
-zenity --list --title "$table" $x
+zenity --text-info --title "$table" --filename=Databases/$DBconnect/$table
 else
 zenity --error --title "error" --text "table not found"
 fi
 elif [[ $select == ${arr4[1]} ]]
 then
-echo x
+table=$(zenity --forms --title "select" --text "enter values" --add-entry "table name" --add-entry "attribute name" --add-entry "attribute value" --separator=:)
+tname=$(echo $table|cut -f1 -d:)
+attname=$(echo $table|cut -f2 -d:)
+attvalue=$(echo $table|cut -f3 -d:)
+if [ -f Databases/$DBconnect/$tname ]
+then
+
+if test `cut -f1 -d: Databases/$DBconnect/meta$tname|grep -w "$attname"`
+then
+touch Databases/$DBconnect/temp
+column=$(cut -f1 -d: Databases/$DBconnect/meta$tname|grep -nw "$attname"|cut -f1 -d:)
+(( column++ ))
+awk -F: -v value="$attvalue" -v field=$column '{if(value==$field)print $0}' Databases/$DBconnect/$tname >> Databases/$DBconnect/temp
+zenity --text-info --title "$tname" --filename=Databases/$DBconnect/temp
+rm Databases/$DBconnect/temp
+else
+zenity --error --title "error" --text "attribute not exist"
+fi
+else
+zenity --error --title "error" --text "table not found"
+fi
 else
 . warning.sh
 fi
