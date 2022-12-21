@@ -1,7 +1,7 @@
 #!/bin/bash
 shopt -s extglob
 LC_COLLATE=C
-where=$(sudo find $HOME -name "DBEngine")
+where=`pwd`
 cd $where
 rg0='*\*'
 rg1='[0-9]*'
