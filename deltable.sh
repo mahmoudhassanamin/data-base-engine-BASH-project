@@ -22,7 +22,7 @@ if [[ $delchoice != "" && $delchoice != "exit" ]]
 then
 if [ -f Databases/$DBconnect/$tbname ]
 then
-checkPk=$(grep -w -n "$pk" Databases/$DBconnect/"meta$tbname" | cut -f1,4 -d:)
+checkPk=$(grep -w -n '$pk' Databases/$DBconnect/"meta$tbname" | cut -f1,4 -d:)
 if [[ $checkPk == *"Primary_Key" ]]
 then
 colNum=$(echo $checkPk|cut -f1 -d:)
