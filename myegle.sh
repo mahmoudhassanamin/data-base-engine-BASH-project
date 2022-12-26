@@ -3,9 +3,11 @@ shopt -s extglob
 LC_COLLATE=C
 where=`pwd`
 cd $where
-rg0='*\*'
+rg0='*_*'
 rg1='[0-9]*'
-rg2='*[\!@|#$%^&*()-+=\["\}\{\]/?><:;\.,`~ ]*'
+rg2='*[A-Z]*'
+rg3='*[a-z]*'
+rg4='*[0-9]*'
 int='^[0-9][0-9]*$'
 arr=("create Database"  "connect Database" "list Databases" "Drop Database" "Exit")
 

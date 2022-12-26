@@ -17,7 +17,7 @@ if [[ $att != "" ]]
 then
 attname=$(echo $att|cut -f1 -d:)
 atttype=$(echo $att|cut -f2 -d:)
-if [[ $attname == "" || $attname == $rg0 || $attname == $rg1 || $attname == $rg2  || $atttype == " " ]]
+if [[ $attname == "" || $attname == *'\'* || $attname == $rg1 || $attname == $rg2  || $atttype == " " ]]
 then
 zenity --error --title "error" --text "invald value"
 (( i-- ))
