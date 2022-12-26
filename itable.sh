@@ -32,19 +32,25 @@ flag=1
 break
 fi	
 else
-if test `cut -f$j -d:|grep -w "$entry"`
+if test `cut -f$j -d: Databases/$DBconnect/$tableName|grep -w "$entry"`
 then
 zenity --error --title "error" --text "there are the same value \nmust be unique value"
 flag=1
 break
 else
+if [[ $entry == $rg0 || $entry == $rg2 || $entry == $rg3 || $entry == $rg4 || $entry == $rg1 || $entry == @ ]]
+then
 record=$record:$entry
+else
+zenity --error --title "error" --text "invalid value"
+flag=1
+fi
 fi
 fi
 else
 if [[ $dtype == "int" ]]
 then
-if [[ $entry =~ $int ]]
+if [[ $entry =~ $int || $entry == *" "* || $entry == *""* ]]
 then
 record=$record:$entry
 else
@@ -53,13 +59,20 @@ flag=1
 break
 fi
 else
+if [[ $entry == $rg0 || $entry == $rg2 || $entry == $rg3 || $entry == $rg4 || $entry == $rg1 || $entry == @ || $entry == *" "* ||$entry == *""* ]]
+then
 record=$record:$entry
+else
+zenity --error --title "error" --text "invalid value"
+flag=1
+fi
 fi
 fi
 done
 if [[ $flag == 1 ]]
 then
 zenity --error --title "it is ok" --text "try again"
+record=""
 else
 echo $record >> Databases/$DBconnect/$tableName
 fi
