@@ -1,11 +1,10 @@
 #!/bin/bash
-
 entry=$(zenity --forms --title "Creat Table" --text "new" --add-entry="enter table name" --add-entry="number of attributes" --separator=:)
 tname=$(echo $entry | awk -F: '{print $1}')
 natt=$(echo $entry | awk -F: '{print $2}')
 flag=0
 flag2=0
-if [[ $tname == $rg0 || $tname == $rg2 || $tname == $rg3 || $tname == $rg4 ]] && (($natt > 0)) && [[ $natt =~ $int ]]
+if [[ $tname == $rg0 || $tname == $rg2 || $tname == $rg3 || $tname == $rg4 ]] && [[ $natt != 0 ]] && [[ $natt =~ $int ]] && [[ $tname != $rg1 ]]
 then
 if [ ! -f Databases/$DBconnect/$tname ]
 then
@@ -17,11 +16,8 @@ if [[ $att != "" ]]
 then
 attname=$(echo $att|cut -f1 -d:)
 atttype=$(echo $att|cut -f2 -d:)
-if [[ $attname == $rg0 || $attname == $rg2 || $attname == $rg3 || $attname == $rg4 ]] && [[ $attname != $rg1 ]]
+if [[ $attname == $rg0 || $attname == $rg2 || $attname == $rg3 || $attname == $rg4 ]] && [[ $attname != $rg1 && $atttype != " " ]]
 then
-zenity --error --title "error" --text "invald value"
-(( i-- ))
-else
 if test `cut -f1 -d: Databases/$DBconnect/"meta$tname"|grep -w $attname`
 then
 zenity --error --title "error" --text "there are the same attribute name"
@@ -40,12 +36,23 @@ fi
 echo $att >> Databases/$DBconnect/"meta$tname"
 fi
 fi
+else
+zenity --error --title "error" --text "invald value"
+(( i-- ))
 fi
 else
 rm Databases/$DBconnect/$tname Databases/$DBconnect/"meta$tname"
 i=$natt
 fi
 done
+defualt_pk=$( cut -f3 -d: Databases/$DBconnect/"meta$tname" )
+if [[ $defualt_pk == "" ]] 
+then 
+touch Databases/$DBconnect/temp 
+awk -F: '{OFS=FS}{if (NR==1) {$3="Primary_Key" ; print $0 } else {print $0} }' Databases/$DBconnect/"meta$tname" > Databases/$DBconnect/temp
+cp Databases/$DBconnect/temp Databases/$DBconnect/"meta$tname"
+rm Databases/$DBconnect/temp
+fi 
 else
 zenity --error --title "error" --text "there are table as tha same name"
 fi

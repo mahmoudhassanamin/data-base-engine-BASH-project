@@ -1,6 +1,6 @@
 #!/bin/bash
 DBconnect=$(zenity --entry --title "connecting..." --text "enter DB Name" --width 300)
-if [ -d Databases/"$DBconnect" ] && [[ $DBconnect != "" && $DBconnect != *" "* && $DBconnect == $rg0 && $DBconnect == $rg2 && $DBconnect == $rg3 && $DBconnect == $rg4 ]]
+if [ -d Databases/"$DBconnect" ] && [[ $DBconnect == $rg0 || $DBconnect == $rg2 || $DBconnect == $rg3 || $DBconnect == $rg4 ]]
 then
 zenity --info --text "connection succeeded"
 . DBconnected.sh

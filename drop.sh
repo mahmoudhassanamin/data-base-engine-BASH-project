@@ -1,6 +1,6 @@
 #!/bin/bash
 DBdrop=$(zenity --entry --title "Drop DB" --text "drop" --entry-text "")
-if [ -d Databases/$DBdrop ] && [[ $DBdrop != "" && $DBdrop != *" "* && $DBconnect == $rg0 && $DBconnect == $rg2 && $DBconnect == $rg3 && $DBconnect == $rg4 ]]
+if [ -d Databases/$DBdrop ] && [[ $DBdrop == $rg0 || $DBdrop == $rg2 || $DBdrop == $rg3 || $DBdrop == $rg4 ]]
 then
 rm -r Databases/$DBdrop
 else
