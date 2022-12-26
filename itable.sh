@@ -3,7 +3,7 @@ j=1
 flag=0
 record=""
 tableName=$(zenity --entry --title "insert" --text "table name" )
-if [ -f Databases/$DBconnect/$tableName ]
+if [ -f Databases/$DBconnect/"$tableName" ] && [[ $tableName != $rg5 ]]
 then
 for i in `cat Databases/$DBconnect/"meta$tableName"`
 do
@@ -38,19 +38,20 @@ zenity --error --title "error" --text "there are the same value \nmust be unique
 flag=1
 break
 else
-if [[ $entry == $rg0 || $entry == $rg2 || $entry == $rg3 || $entry == $rg4 || $entry == $rg1 || $entry == @ ]]
+if [[ $entry == $rg0 || $entry == $rg2 || $entry == $rg3 || $entry == $rg4 || $entry == $rg1 || $entry == *@* ]] && [[ $entry != *" "* ]]
 then
 record=$record:$entry
 else
 zenity --error --title "error" --text "invalid value"
 flag=1
+break
 fi
 fi
 fi
 else
 if [[ $dtype == "int" ]]
 then
-if [[ $entry =~ $int || $entry == *" "* || $entry == *""* ]]
+if [[ $entry =~ $int ]]
 then
 record=$record:$entry
 else
@@ -59,12 +60,13 @@ flag=1
 break
 fi
 else
-if [[ $entry == $rg0 || $entry == $rg2 || $entry == $rg3 || $entry == $rg4 || $entry == $rg1 || $entry == @ || $entry == *" "* ||$entry == *""* ]]
+if [[ $entry == $rg0 || $entry == $rg2 || $entry == $rg3 || $entry == $rg4 || $entry == $rg1 || $entry == *@* || $entry == "" ]] && [[ $entry != *" "* ]]
 then
 record=$record:$entry
 else
 zenity --error --title "error" --text "invalid value"
 flag=1
+break
 fi
 fi
 fi

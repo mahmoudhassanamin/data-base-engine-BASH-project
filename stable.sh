@@ -4,7 +4,7 @@ select=$(zenity --list --title "select" --text "choose a query" --column "" "${a
 if [[ $select == ${arr4[0]} ]]
 then
 table=$(zenity --entry --title "select" --text "enter table name")
-if [ -f Databases/$DBconnect/$table ]
+if [ -f Databases/$DBconnect/"$table" ]
 then
 zenity --text-info --title "$table" --filename=Databases/$DBconnect/$table
 else

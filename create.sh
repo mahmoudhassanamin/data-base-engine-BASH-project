@@ -1,7 +1,8 @@
 #!/bin/bash
 
 DBname=$(zenity --forms --title "create DB" --text "Database creation \n must not have special char or start with number" --add-entry "Database Name" --width 400 )
-if [[ $DBname == $rg0 || $DBname == $rg2 || $DBname == $rg3 || $DBname == $rg4 ]] && [[ $DBname != $rg1 ]]
+#لسه الريجك يبقل _ و select و del
+if [[ $DBname =~ $rg0 || $DBname =~ $rg2 || $DBname =~ $rg3 || $DBname =~ $rg4 ]] && [[ $DBname != $rg1 && $DBname != *" "* ]]
 then
 if [ -d "Databases" ]
 then
