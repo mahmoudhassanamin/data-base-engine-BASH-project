@@ -4,9 +4,9 @@ tname=$(echo $entry | awk -F: '{print $1}')
 natt=$(echo $entry | awk -F: '{print $2}')
 flag=0
 flag2=0
-if [[ $tname == $rg0 || $tname == $rg2 || $tname == $rg3 || $tname == $rg4 ]] && [[ $natt != *0* ]] && [[ $natt =~ $int ]] && [[ $tname != $rg1 && $tname != $rg5 ]]
+if [[ $tname =~ $rg0 ]] && (( $natt > 0 )) && [[ $natt =~ $int ]] && [[ $tname != $rg1 ]]
 then
-if [ ! -f Databases/$DBconnect/$tname ]
+if [ ! -f Databases/$DBconnect/"$tname" ]
 then
 touch Databases/$DBconnect/$tname Databases/$DBconnect/"meta$tname"
 for (( i=1; i<=$natt; i++ ))
@@ -16,7 +16,7 @@ if [[ $att != "" ]]
 then
 attname=$(echo $att|cut -f1 -d:)
 atttype=$(echo $att|cut -f2 -d:)
-if [[ $attname == $rg0 || $attname == $rg2 || $attname == $rg3 || $attname == $rg4 ]] && [[ $attname != $rg1 && $attname != $rg5 && $atttype != " " ]]
+if [[ $attname =~ $rg0 ]] && [[ $attname != $rg1 && $atttype != " " ]]
 then
 if test `cut -f1 -d: Databases/$DBconnect/"meta$tname"|grep -w $attname`
 then

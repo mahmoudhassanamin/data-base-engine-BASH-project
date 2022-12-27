@@ -4,9 +4,9 @@ delchoice=$(zenity --list  --title "delete"   --text "delete data" --column "" "
 if [[ $delchoice == ${arr3[0]} ]]
 then
 deltable=$(zenity --entry  --title "delete all data " --text "enter table name ")
-if [ -f Databases/$DBconnect/$deltable ]
+if [ -f Databases/$DBconnect/"$deltable" ] && [[ $deltable =~ $rg0 ]] && [[ $deltable != $rg1 ]]
 then
-echo > Databases/$DBconnect/$deltable
+echo > Databases/$DBconnect/"$deltable"
 else
 zenity --error --title "error" --text "the table not found"
 fi
@@ -15,12 +15,13 @@ then
 while [[ $delchoice != "exit" ]]
 do
 delchoice=$(zenity --forms  --title "delete Specific Data" --text "delete data" --add-entry "table name" --add-entry "P.K" --add-entry "P.K value" --cancel-label "" --extra-button "exit" --separator=:)
+if [[ $delchoice != "" && $delchoice != "exit" ]] 
+then
 tbname=$(echo $delchoice|cut -f1 -d:)
 pk=$(echo $delchoice|cut -f2 -d:)
 pkval=$(echo $delchoice|cut -f3 -d:)
-if [[ $delchoice != "" && $delchoice != "exit" ]]
-then
-if [ -f Databases/$DBconnect/$tbname ]
+rg2='^[a-zA-Z0-9"_""@"][a-zA-Z0-9"_""@"]*$'
+if [ -f Databases/$DBconnect/"$tbname" ] && [[ $tbname =~ $rg0 ]] && [[ $tbname != $rg1 ]] && [[ $pk =~ $rg0 && $pk != $rg1 ]] && [[ $pkval =~ $rg2 ]]
 then
 checkPk=$(grep -w -n '$pk' Databases/$DBconnect/"meta$tbname" | cut -f1,4 -d:)
 if [[ $checkPk == *"Primary_Key" ]]

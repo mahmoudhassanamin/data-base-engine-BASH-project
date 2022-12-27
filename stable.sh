@@ -4,9 +4,9 @@ select=$(zenity --list --title "select" --text "choose a query" --column "" "${a
 if [[ $select == ${arr4[0]} ]]
 then
 table=$(zenity --entry --title "select" --text "enter table name")
-if [ -f Databases/$DBconnect/"$table" ]
+if [ -f Databases/$DBconnect/"$table" ] && [[ $table =~ $rg0 ]] && [[ $table != $rg1 ]]
 then
-zenity --text-info --title "$table" --filename=Databases/$DBconnect/$table
+zenity --text-info --title "$table" --filename=Databases/$DBconnect/"$table"
 else
 zenity --error --title "error" --text "table not found"
 fi
@@ -16,7 +16,8 @@ table=$(zenity --forms --title "select" --text "enter values" --add-entry "table
 tname=$(echo $table|cut -f1 -d:)
 attname=$(echo $table|cut -f2 -d:)
 attvalue=$(echo $table|cut -f3 -d:)
-if [ -f Databases/$DBconnect/$tname ]
+rg2='^[a-zA-Z0-9"_""@"][a-zA-Z0-9"_""@"]*$'
+if [ -f Databases/$DBconnect/"$tname" ] && [[ $tname =~ $rg0 ]] && [[ $tname != $rg1 && $attname =~ $rg0 && $attname != $rg1 ]] && [[ $attvalue =~ $rg2 ]]
 then
 
 if test `cut -f1 -d: Databases/$DBconnect/meta$tname|grep -w "$attname"`

@@ -6,7 +6,8 @@ att0=$(echo $update|cut -f2 -d:)
 value=$(echo $update|cut -f3 -d:)
 weratt=$(echo $update|cut -f4 -d:)
 wervalue=$(echo $update|cut -f5 -d:)
-if [ -f Databases/$DBconnect/"$tablename" ] && [[ $tablename != $rg2 && $tablename != "" ]]
+rg2='^[a-zA-Z0-9"_""@"][a-zA-Z0-9"_""@"]*$'
+if [ -f Databases/$DBconnect/"$tablename" ] && [[ $tableName =~ $rg0 ]] && [[ $tableName != $rg1 && $wervalue =~ $rg2 && $value =~ $rg2 ]]
 then
 att1=$(cut -f1 -d: Databases/$DBconnect/"meta$tablename"|grep -w "$weratt")
 att2=$(cut -f1 -d: Databases/$DBconnect/"meta$tablename"|grep -nw "$att0"|cut -f1 -d:)
