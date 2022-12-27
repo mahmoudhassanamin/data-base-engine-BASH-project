@@ -6,7 +6,9 @@ then
 deltable=$(zenity --entry  --title "delete all data " --text "enter table name ")
 if [ -f Databases/$DBconnect/"$deltable" ] && [[ $deltable =~ $rg0 ]] && [[ $deltable != $rg1 ]]
 then
-echo > Databases/$DBconnect/"$deltable"
+touch Databases/$DBconnect/temp
+cp Databases/$DBconnect/temp Databases/$DBconnect/$deltable
+rm Databases/$DBconnect/temp
 else
 zenity --error --title "error" --text "the table not found"
 fi
@@ -21,18 +23,23 @@ tbname=$(echo $delchoice|cut -f1 -d:)
 pk=$(echo $delchoice|cut -f2 -d:)
 pkval=$(echo $delchoice|cut -f3 -d:)
 rg2='^[a-zA-Z0-9"_""@"][a-zA-Z0-9"_""@"]*$'
-if [ -f Databases/$DBconnect/"$tbname" ] && [[ $tbname =~ $rg0 ]] && [[ $tbname != $rg1 ]] && [[ $pk =~ $rg0 && $pk != $rg1 ]] && [[ $pkval =~ $rg2 ]]
+if [ -f Databases/$DBconnect/"$tbname" ] && [[ $tbname =~ $rg0 ]] && [[ $tbname != $rg1 ]]
 then
-checkPk=$(grep -w -n '$pk' Databases/$DBconnect/"meta$tbname" | cut -f1,4 -d:)
+if [[ $pk =~ $rg0 && $pk != $rg1 ]] && [[ $pkval =~ $rg2 ]]
+then
+checkPk=$(grep -w -n "$pk" Databases/$DBconnect/"meta$tbname" | cut -f1,4 -d:)
 if [[ $checkPk == *"Primary_Key" ]]
 then
 colNum=$(echo $checkPk|cut -f1 -d:)
 touch Databases/$DBconnect/temp
 awk -F: -v pkv=$pkval '{if(pkv!=$2)print $0}' Databases/$DBconnect/$tbname > Databases/$DBconnect/temp
-rm Databases/$DBconnect/$tbname
-mv Databases/$DBconnect/temp Databases/$DBconnect/$tbname
+cp Databases/$DBconnect/temp Databases/$DBconnect/$tbname
+rm Databases/$DBconnect/temp
 else
 zenity --error --title "error" --text "the column is not PK OR not found"
+fi
+else
+zenity --error --title "error" --text "invalid value"
 fi
 else
 zenity --error --title "error" --text "table not found"

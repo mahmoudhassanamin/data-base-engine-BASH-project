@@ -17,9 +17,8 @@ tname=$(echo $table|cut -f1 -d:)
 attname=$(echo $table|cut -f2 -d:)
 attvalue=$(echo $table|cut -f3 -d:)
 rg2='^[a-zA-Z0-9"_""@"][a-zA-Z0-9"_""@"]*$'
-if [ -f Databases/$DBconnect/"$tname" ] && [[ $tname =~ $rg0 ]] && [[ $tname != $rg1 && $attname =~ $rg0 && $attname != $rg1 ]] && [[ $attvalue =~ $rg2 ]]
+if [ -f Databases/$DBconnect/"$tname" ] && [[ $tname =~ $rg0 ]] && [[ $tname != $rg1 && $attname =~ $rg0 && $attname != $rg1 ]] && [[ $attvalue =~ $rg2 || $attvalue == "" ]]
 then
-
 if test `cut -f1 -d: Databases/$DBconnect/meta$tname|grep -w "$attname"`
 then
 touch Databases/$DBconnect/temp

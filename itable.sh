@@ -2,11 +2,15 @@
 j=1
 flag=0
 record=""
+entry=1
+rg2='^[a-zA-Z0-9"_"][a-zA-Z0-9"_"]*$'
 tableName=$(zenity --entry --title "insert" --text "table name" )
 if [ -f Databases/$DBconnect/"$tableName" ] && [[ $tableName =~ $rg0 ]] && [[ $tableName != $rg1 ]]
 then
 for i in `cat Databases/$DBconnect/"meta$tableName"`
 do
+if [[ $entry != "" ]]
+then
 isPK=$(echo $i|cut -f3 -d:)
 attName=$(echo $i|cut -f1 -d:)
 dtype=$(echo $i|cut -f2 -d:)
@@ -38,7 +42,6 @@ zenity --error --title "error" --text "there are the same value \nmust be unique
 flag=1
 break
 else
-rg2='^[a-zA-Z0-9"_""@"][a-zA-Z0-9"_""@"]*$'
 if [[ $entry =~ $rg2 ]]
 then
 record=$record:$entry
@@ -61,7 +64,7 @@ flag=1
 break
 fi
 else
-if [[ $entry =~ $rg2 ]]
+if [[ $entry =~ $rg2 || $entry == "" ]]
 then
 record=$record:$entry
 else
@@ -70,6 +73,11 @@ flag=1
 break
 fi
 fi
+fi
+elif [[ $entry == "" ]]
+then
+flag=1
+zenity --error --title "error" --text "invalid value"
 fi
 done
 if [[ $flag == 1 ]]

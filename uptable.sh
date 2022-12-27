@@ -7,7 +7,9 @@ value=$(echo $update|cut -f3 -d:)
 weratt=$(echo $update|cut -f4 -d:)
 wervalue=$(echo $update|cut -f5 -d:)
 rg2='^[a-zA-Z0-9"_""@"][a-zA-Z0-9"_""@"]*$'
-if [ -f Databases/$DBconnect/"$tablename" ] && [[ $tableName =~ $rg0 ]] && [[ $tableName != $rg1 && $wervalue =~ $rg2 && $value =~ $rg2 ]]
+if [ -f Databases/$DBconnect/"$tablename" ] && [[ $tablename =~ $rg0 ]] && [[ $tablename != $rg1 ]]
+then
+if [[ $wervalue =~ $rg2 && $value =~ $rg2 ]]
 then
 att1=$(cut -f1 -d: Databases/$DBconnect/"meta$tablename"|grep -w "$weratt")
 att2=$(cut -f1 -d: Databases/$DBconnect/"meta$tablename"|grep -nw "$att0"|cut -f1 -d:)
@@ -15,7 +17,6 @@ att2=$(cut -f1 -d: Databases/$DBconnect/"meta$tablename"|grep -nw "$att0"|cut -f
 if [[ $weratt == $att1 ]]
 then
 c=$(grep -n "$att0" Databases/$DBconnect/"meta$tablename")
-echo $c
 cpk=$(echo $c|cut -f4 -d:)
 ctype=$(echo $c|cut -f3 -d:)
 cn=$(echo $c|cut -f1 -d:)
@@ -23,7 +24,6 @@ cn=$(echo $c|cut -f1 -d:)
 if [[ $cpk == "Primary_Key" ]]
 then
 flag=$(awk -F: -v v=$value -v cf=$cn '{if($cf==v)print 1}' Databases/$DBconnect/$tablename)
-echo $flag
 fi
 if [[ $flag != 1 ]]
 then
@@ -53,5 +53,8 @@ else
 zenity --error --title "error" --text "attribute not found"
 fi
 else
-zenity --error --title "error" --text "table not found OR invalid values"
+zenity --error --title "error" --text "invalid value"
+fi
+else
+zenity --error --title "error" --text "table not found"
 fi

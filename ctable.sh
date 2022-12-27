@@ -4,6 +4,7 @@ tname=$(echo $entry | awk -F: '{print $1}')
 natt=$(echo $entry | awk -F: '{print $2}')
 flag=0
 flag2=0
+flag3=0
 if [[ $tname =~ $rg0 ]] && (( $natt > 0 )) && [[ $natt =~ $int ]] && [[ $tname != $rg1 ]]
 then
 if [ ! -f Databases/$DBconnect/"$tname" ]
@@ -41,12 +42,13 @@ zenity --error --title "error" --text "invald value"
 (( i-- ))
 fi
 else
+flag3=1
 rm Databases/$DBconnect/$tname Databases/$DBconnect/"meta$tname"
 i=$natt
 fi
 done
 defualt_pk=$( cut -f3 -d: Databases/$DBconnect/"meta$tname" )
-if [[ $defualt_pk == "" ]] 
+if [[ $defualt_pk == "" && $flag3 != 1 ]] 
 then 
 touch Databases/$DBconnect/temp 
 awk -F: '{OFS=FS}{if (NR==1) {$3="Primary_Key" ; print $0 } else {print $0} }' Databases/$DBconnect/"meta$tname" > Databases/$DBconnect/temp
