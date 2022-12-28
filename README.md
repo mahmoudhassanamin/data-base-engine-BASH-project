@@ -1,5 +1,5 @@
 # This is DataBase Engin
-# intake_43 
+# intake 43 
 # IOT
 
 Using Bash Script 
@@ -12,8 +12,8 @@ Using Bash Script
 
 3 - run this script
 
-./myegle.sh
+  ./myegle.sh
 
-and enjoy 
+  and enjoy 
 
 # Thanks 
