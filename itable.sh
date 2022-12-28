@@ -20,7 +20,7 @@ if [[ $isPK == "Primary_Key" ]]
 then
 if [[ $dtype == int ]]
 then
-if [[ $entry =~ $int ]]
+if [[ $entry =~ $int && (( $entry > 0 )) ]]
 then
 if test `cut -f$j -d: Databases/$DBconnect/$tableName|grep -w "$entry"`
 then
